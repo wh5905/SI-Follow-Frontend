@@ -55,6 +55,17 @@ jobs:
     name: Deploy to AWS EC2
     runs-on: self-hosted
     steps:
+    
+    - name: Get GitHub Actions IP
+      id: ip
+      uses: haythem/public-ip@v1.3
+  
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
 
     - name: Copy docker-compose.yml to EC2
       uses: appleboy/scp-action@master
@@ -74,6 +85,8 @@ jobs:
         script_stop: true
         script: |
           cd /home/ec2-user/si-follow/react-frontend
+
+          export GITHUB_USERNAME=${{ github.actor }}
           
           docker-compose down
           echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
