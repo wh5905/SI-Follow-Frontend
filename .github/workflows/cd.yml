@@ -53,7 +53,7 @@ jobs:
   deploy:
     needs: build
     name: Deploy to AWS EC2
-    runs-on: self-hosted
+    runs-on: [ self-hosted, deploy-si-follow-frontend ]
     steps:
     
     - name: Get GitHub Actions IP
