@@ -48,7 +48,7 @@ jobs:
 
     - name: Build and Push Docker image
       run: |
-        docker buildx build --platform linux/amd64 -f Dockerfile -t ghcr.io/${{ github.actor }}/nextjs-app:latest --push .
+        docker buildx build --platform linux/arm64 -f Dockerfile -t ghcr.io/${{ github.actor }}/nextjs-app:latest --push .
 
   deploy:
     needs: build
